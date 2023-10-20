@@ -1,6 +1,7 @@
 package com.example.coach.controleur;
 
 
+import com.example.coach.modele.AccesLocal;
 import com.example.coach.outils.Serializer;
 
 import android.content.Context;
@@ -8,13 +9,21 @@ import android.content.Context;
 import com.example.coach.modele.Profil;
 import com.example.coach.vue.MainActivity;
 
+import java.util.Date;
+
 public final class Controle {
     private static Controle instance = null;
     private static Profil profil;
     private static String nomfic = "saveprofil";
 
+    private AccesLocal accesLocal;
+
     private Controle(Context context) {
+        /*
         recupSerialize(context);
+         */
+        accesLocal = AccesLocal.getInstance(context);
+        profil = accesLocal.recupDernier();
     }
 
     public static final Controle getInstance(Context context){
@@ -32,8 +41,12 @@ public final class Controle {
      * @param sexe 1 pour homme, 0 pour femme
      */
     public void creerProfil(Integer poids, Integer taille, Integer age, Integer sexe, Context context) {
-        profil = new Profil(poids, taille, age, sexe);
+        profil = new Profil(poids, taille, age, sexe, new Date());
+
+        accesLocal.ajout(profil);
+        /*
         Serializer.serialize(nomfic, profil, context);
+         */
     }
 
     public float getImg(){
@@ -83,6 +96,7 @@ public final class Controle {
             return profil.getSexe();
         }
     }
+
 
     private static void recupSerialize(Context context){
         profil = (Profil)Serializer.deSerialize(nomfic, context);

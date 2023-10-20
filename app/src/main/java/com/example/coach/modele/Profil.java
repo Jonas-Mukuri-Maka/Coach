@@ -2,6 +2,7 @@ package com.example.coach.modele;
 
 import java.io.Serializable;
 import java.lang.Math;
+import java.util.Date;
 
 import com.example.coach.outils.Serializer;
 
@@ -27,11 +28,14 @@ public class Profil implements Serializable {
 
     private String message = "";
 
-    public Profil(int poids, int taille, int age, int sexe) {
+    private Date dateMesure;
+
+    public Profil(int poids, int taille, int age, int sexe, Date dateMesure) {
         this.poids = poids;
         this.taille = taille;
         this.age = age;
         this.sexe = sexe;
+        this.dateMesure = dateMesure;
     }
 
     public int getPoids() {
@@ -55,6 +59,10 @@ public class Profil implements Serializable {
             img = (float) (1.2 * poids/(Math.pow(((float)taille/100), 2)) + (0.23 * age) + (10.83 * sexe) - 5.4);
         }
         return img;
+    }
+
+    public Date getDateMesure() {
+        return dateMesure;
     }
 
     public String getMessage() {
