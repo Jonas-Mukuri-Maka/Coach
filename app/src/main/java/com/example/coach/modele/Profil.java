@@ -1,10 +1,16 @@
 package com.example.coach.modele;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.lang.Math;
 import java.util.Date;
 
+import com.example.coach.outils.MesOutils;
 import com.example.coach.outils.Serializer;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Profil implements Serializable {
 
@@ -87,6 +93,20 @@ public class Profil implements Serializable {
             }
         }
         return message;
+    }
+
+    public JSONObject convertToJSONObject(){
+        JSONObject object = new JSONObject();
+        try {
+            object.put("poids", poids);
+            object.put("taille", taille);
+            object.put("age", age);
+            object.put("sexe", sexe);
+            object.put("datemesure", MesOutils.convertDateToString(dateMesure));
+        } catch (JSONException e) {
+            Log.d("erreur", "************");
+        }
+        return object;
     }
 
 }
